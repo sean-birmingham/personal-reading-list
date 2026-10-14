@@ -50,3 +50,4 @@ coverage/
 next-env.d.ts
 .vercel
 *.pem
+supabase/.temp/
