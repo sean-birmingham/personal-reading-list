@@ -1,4 +1,4 @@
-# Bookshelf — [Your Name]
+# Bookshelf — Sean Birmingham
 
 A personal reading tracker where you search for books, organize them into shelves, track reading progress, and explore year-in-review statistics.
 
@@ -14,16 +14,16 @@ Bookshelf is a full-stack reading tracker built with Next.js and Supabase as a [
 
 ### Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router, Cache Components) |
-| Database | Supabase (Postgres), schema managed with Supabase CLI migrations |
-| Authentication | Supabase Auth (email + password) |
-| Book API | Open Library |
-| Hosting | Vercel |
-| Styling | Tailwind CSS v4 with the brand design tokens |
-| Charts/Viz | TBD |
-| Other | Lora + Inter via `next/font` |
+| Layer          | Technology                                                       |
+| -------------- | ---------------------------------------------------------------- |
+| Framework      | Next.js 16 (App Router, Cache Components)                        |
+| Database       | Supabase (Postgres), schema managed with Supabase CLI migrations |
+| Authentication | Supabase Auth (email + password)                                 |
+| Book API       | Open Library                                                     |
+| Hosting        | Vercel                                                           |
+| Styling        | Tailwind CSS v4 with the brand design tokens                     |
+| Charts/Viz     | TBD                                                              |
+| Other          | Lora + Inter via `next/font`                                     |
 
 ---
 
@@ -33,11 +33,11 @@ Bookshelf is a full-stack reading tracker built with Next.js and Supabase as a [
 
 The full schema is in [`supabase/migrations/20261015001353_init_schema.sql`](supabase/migrations/20261015001353_init_schema.sql).
 
-**1. Each user has their own copy of a book's metadata.** Instead of a shared `books` catalog, `library_books` stores a book's details alongside the user's shelf, rating and notes. Bookshelf has no social features, so a shared catalog would add complexity without benefit, and users can fix missing data (like a page count) on their own copy. *Trade-off:* metadata is duplicated across users, and later Open Library corrections don't reach existing copies.
+**1. Each user has their own copy of a book's metadata.** Instead of a shared `books` catalog, `library_books` stores a book's details alongside the user's shelf, rating and notes. Bookshelf has no social features, so a shared catalog would add complexity without benefit, and users can fix missing data (like a page count) on their own copy. _Trade-off:_ metadata is duplicated across users, and later Open Library corrections don't reach existing copies.
 
-**2. A book's identity is its Open Library work ID.** Open Library groups every edition of a book under one work (*Dune* has 155 editions and 240 ISBNs). Making the work ID unique per user means you can't add *Dune* twice by picking a different edition. Edition details like ISBN, cover and page count are ordinary columns. *Trade-off:* books Open Library doesn't have get no work ID, so they aren't checked for duplicates.
+**2. A book's identity is its Open Library work ID.** Open Library groups every edition of a book under one work (_Dune_ has 155 editions and 240 ISBNs). Making the work ID unique per user means you can't add _Dune_ twice by picking a different edition. Edition details like ISBN, cover and page count are ordinary columns. _Trade-off:_ books Open Library doesn't have get no work ID, so they aren't checked for duplicates.
 
-**3. Shelves say where a book is; dates say what happened.** The spec puts each book on exactly one shelf, but moving a finished book to "Favorites" shouldn't remove it from your reading goal. So "read this year" is based on `finished_on`, not the Read shelf. Moving a book onto Currently Reading or Read fills in the start or finish date. Adding old books straight to Read doesn't, so a new user's backlog doesn't inflate this year's goal. Dates are plain `date`s rather than timestamps, so a book finished late on New Year's Eve can't land in the wrong year. *Trade-off:* one finish date per book means re-reads aren't tracked.
+**3. Shelves say where a book is; dates say what happened.** The spec puts each book on exactly one shelf, but moving a finished book to "Favorites" shouldn't remove it from your reading goal. So "read this year" is based on `finished_on`, not the Read shelf. Moving a book onto Currently Reading or Read fills in the start or finish date. Adding old books straight to Read doesn't, so a new user's backlog doesn't inflate this year's goal. Dates are plain `date`s rather than timestamps, so a book finished late on New Year's Eve can't land in the wrong year. _Trade-off:_ one finish date per book means re-reads aren't tracked.
 
 **4. Progress is stored as both a current position and a history.** The book row holds the current page for fast library loads, and `progress_updates` is an append-only log of positions that powers stats like pages per week. A database trigger keeps the two in sync.
 
@@ -130,10 +130,10 @@ I started by having AI scaffold the whole project, then switched to having it wa
 
 ### Session Breakdown
 
-| Session | Focus | What I Accomplished |
-|---------|-------|-------------------|
-| 1 | Foundation | Scaffolded Next.js 16, wired up brand tokens and fonts, set up Supabase and its CLI |
-| 2 | Data model | Made five schema decisions, wrote and tested the migration, applied it to Supabase |
+| Session | Focus      | What I Accomplished                                                                 |
+| ------- | ---------- | ----------------------------------------------------------------------------------- |
+| 1       | Foundation | Scaffolded Next.js 16, wired up brand tokens and fonts, set up Supabase and its CLI |
+| 2       | Data model | Made five schema decisions, wrote and tested the migration, applied it to Supabase  |
 
 ---
 
@@ -255,9 +255,9 @@ npm run dev
 
 ### Environment Variables
 
-| Variable | Description |
-|----------|------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL (Dashboard → Connect) |
+| Variable                               | Description                                                                                      |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `NEXT_PUBLIC_SUPABASE_URL`             | Your Supabase project URL (Dashboard → Connect)                                                  |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Your Supabase publishable key. Safe in the browser, because Row Level Security protects the data |
 
 ---
